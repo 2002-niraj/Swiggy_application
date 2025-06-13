@@ -169,7 +169,7 @@ export default function Header() {
         <div className="flex items-center gap-2 hover:text-orange-500">
           <FaShoppingCart />
           <h2 className="cursor-pointer flex items-center">
-            <NavLink to="/cart" className={navLinkClass}>
+            <NavLink to="/checkout" className={navLinkClass}>
               Cart{" "}
               <span
                 className={`cursor-pointer rounded border-1 px-2 py-[1px] ${

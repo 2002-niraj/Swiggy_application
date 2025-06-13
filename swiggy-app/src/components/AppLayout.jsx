@@ -28,7 +28,6 @@ const AppLayout = () => {
   if(!status) return ( <div className="fixed top-0 left-0 w-full bg-red-100 text-red-700 text-center font-semibold py-3 z-50 shadow-md animate-slide-down">
     🚫 You’re offline. Trying to reconnect...
   </div> )
-
   return (
     <div>
         <Header />
