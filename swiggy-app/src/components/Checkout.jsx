@@ -10,6 +10,7 @@ export default function Checkout() {
   const address = useSelector((state) => state?.location?.address);
   const restaurantList = useSelector((state) => state.list.restaurantList);
   const restaurantId = useSelector((state) => state.cart.restoId);
+  const user = useSelector((state) => state.login.user);
 
   let name, locality, cloudinaryImageId;
   if (restaurantList?.length > 0 && restaurantId) {
@@ -24,12 +25,24 @@ export default function Checkout() {
   }, 0);
   //console.log("items:", items);
 
-  return items.length===0?(
-           <div className="pt-24 px-4 p-4 max-w-xl mx-auto">
-    <h1 className="text-2xl font-bold mb-4 text-center">Your Cart is Empty</h1>
-  </div>
-  ):(
-       <div className="pt-24 px-4 bg-gray-300 min-h-screen">
+  const placeOrder = () => {
+       if(!user){
+        alert("Please login to place an order");
+        return;
+       }
+       else{
+        alert("Order placed successfully!");
+       }
+  }
+
+  return items.length === 0 ? (
+    <div className="pt-24 px-4 p-4 max-w-xl mx-auto">
+      <h1 className="text-2xl font-bold mb-4 text-center">
+        Your Cart is Empty
+      </h1>
+    </div>
+  ) : (
+    <div className="pt-24 px-4 bg-gray-300 min-h-screen">
       <div className="flex flex-col lg:flex-row gap-10 p-6 max-w-6xl mx-auto">
         {/* Left Side */}
         <div className="flex flex-col gap-6 w-full  lg:w-2/3">
@@ -131,15 +144,25 @@ export default function Checkout() {
             </div>
             <hr className="bg-black border-t border-black my-4" />
 
-            <div className="flex justify-between items-center">
-              <span className="text-black font-bold text-lg">To Pay</span>
-              <span className="text-black font-bold text-lg">
-                ₹{total / 100}
-              </span>
+            <div className="flex flex-col gap-4 mt-4">
+         
+              <div className="flex justify-between items-center">
+                <span className="text-black font-bold text-lg">To Pay</span>
+                <span className="text-black font-bold text-lg">
+                  ₹{total / 100}
+                </span>
+              </div>
+
+             
+              <div className="flex mt-10 justify-end">
+                <button onClick={placeOrder} className="bg-green-600 cursor-pointer hover:bg-green-700 text-white font-semibold py-2 px-6 rounded transition duration-300">
+                  Place Order
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }

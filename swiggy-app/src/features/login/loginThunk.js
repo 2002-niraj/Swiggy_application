@@ -13,7 +13,6 @@ const loginUser = createAsyncThunk(
           
       if(response?.data?.success){
          const decodedUser = jwtDecode(response?.data?.token);
-         localStorage.setItem("token", response?.data.token);
          return{
           user:decodedUser,
           message:response?.data?.message

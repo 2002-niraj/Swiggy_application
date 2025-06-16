@@ -5,17 +5,16 @@ import { IoMdHelpBuoy, IoMdClose } from "react-icons/io";
 import { IoRestaurantSharp } from "react-icons/io5";
 import { NavLink, Link } from "react-router-dom";
 import { useState, useEffect,useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector} from "react-redux";
+import Droplist from "./Droplist";
 
 import LoginSignup from "./LoginSignup";
-import { logout } from "../features/login/loginSlice";
 
 export default function Header() {
   const [showAuth, setShowAuth] = useState(false);
   const [showDropDown, setShowDropDown] = useState(false);
   const dropdownRef = useRef(null);
 
-  const dispatch = useDispatch();
   const user = useSelector((state) => state.login.user);
   const cartItems = useSelector((store) => store.cart.items);
   const address = useSelector((state)=>state?.location?.address);
@@ -53,12 +52,6 @@ export default function Header() {
       setShowDropDown(false);
       setShowAuth((prev) => !prev);
     }
-  };
-
-  const handleLogout = () => {
-    dispatch(logout());
-    setShowDropDown(false);
-    setShowAuth(true);
   };
 
   return (
@@ -150,17 +143,7 @@ export default function Header() {
 
           {showDropDown && (
             <div ref={dropdownRef} className="absolute bg-white shadow-lg rounded-md right-[-30px] mt-2 w-40 z-10">
-              <ul className="py-2">
-                <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                  Profile
-                </li>
-                <li
-                  onClick={handleLogout}
-                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                >
-                  Logout
-                </li>
-              </ul>
+              <Droplist setShowDropDown={setShowDropDown} setShowAuth={setShowAuth} />
             </div>
           )}
         </div>

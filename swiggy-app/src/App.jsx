@@ -8,7 +8,9 @@ import Shimmer from "./components/Shimmer";
 import Loader from "./components/Loader";
 import RestaurantMenu from "./components/RestaurantMenu";
 import {Provider} from "react-redux"
-import Store from "../src/app/Store"
+import Store,{persistor} from "../src/app/Store"
+import { PersistGate } from "redux-persist/integration/react";
+
 const Error = lazy(() => import("./components/Error"));
 const Search = lazy(() => import("./components/Search"));
 const Offers = lazy(() => import("./components/Offers"));
@@ -96,7 +98,9 @@ const router = createBrowserRouter([
 export default function App() {
    return (
     <Provider store={Store}>
+      <PersistGate persistor={persistor} loading={<Loader />}>
       <RouterProvider router={router} />
+      </PersistGate>
     </Provider>
   );
 }

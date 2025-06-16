@@ -10,6 +10,7 @@ const menuSlice = createSlice({
     restaurantInfo: null,
     menuItems: []
    },
+   
    extraReducers:(builder)=>{
       
               builder.addCase(menuList.pending,(state)=>{
