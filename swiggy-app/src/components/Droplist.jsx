@@ -4,9 +4,12 @@ import { clearCart } from "../features/cart/cartSlice";
 import { persistor } from "../app/Store";
 import fetchOrderHistory from "../features/orderHistory/orderHistoryThunk";
 import { useNavigate } from "react-router-dom";
+
 const Droplist = ({ setShowDropDown, setShowAuth }) => {
   const dispatch = useDispatch();
    const navigate = useNavigate();
+
+
 
   const user = useSelector((state) => state.login.user);
 
@@ -22,10 +25,11 @@ const Droplist = ({ setShowDropDown, setShowAuth }) => {
 
   const handleOrdersHistory = ()=>{
          dispatch(fetchOrderHistory(id))
-         setTimeout(() => {
-           navigate("/order-history");
-         }, 1000);
+         navigate("/order-history");
+         setShowDropDown(false);
+      
   }
+
 
   return (
     <div>
