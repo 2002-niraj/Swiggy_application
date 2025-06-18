@@ -1,25 +1,27 @@
 import { FaLocationDot } from "react-icons/fa6";
 import { useSelector, useDispatch } from "react-redux";
-import getRestoById from "../utils/getRestoById";
+import getRestoById from "../utils/getRestoById.js";
 import { IoMdRemove } from "react-icons/io";
 import { IoMdAdd } from "react-icons/io";
-import { decreaseItem, additems } from "../features/cart/cartSlice";
-import Loader from "./Loader";
+import { decreaseItem, additems } from "../features/cart/cartSlice.js";
+import Loader from "../components/Loader.jsx";
 import placeOrders from "../features/order/orderThunk.js";
 import { useNavigate } from "react-router-dom";
-import { useEffect,useState } from "react";
-import { clearCart } from "../features/cart/cartSlice";
+import { useEffect, useState } from "react";
+import { clearCart } from "../features/cart/cartSlice.js";
 
 export default function Checkout() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState("COD");
   const address = useSelector((state) => state?.location?.address);
   const restaurantList = useSelector((state) => state.list.restaurantList);
   const restaurantId = useSelector((state) => state.cart.restoId);
   const user = useSelector((state) => state.login.user);
   const totalAmount = useSelector((state) => state.cart.total);
   const Ordersucess = useSelector((state) => state.order.success);
+
 
   let name, locality, cloudinaryImageId;
   if (restaurantList?.length > 0 && restaurantId) {
@@ -29,28 +31,28 @@ export default function Checkout() {
 
   const items = useSelector((state) => state.cart.items);
 
-const handlePlaceOrder = () => {
-  if (!user) {
-    alert("Please login to place an order");
-    return;
-  }
-  setLoading(true);
+  const handlePlaceOrder = () => {
+    if (!user) {
+      alert("Please login to place an order");
+      return;
+    }
+    setLoading(true);
 
-  dispatch(placeOrders());
-};
+    dispatch(placeOrders());
+  };
 
-useEffect(() => {
-  if (Ordersucess) {
-    setTimeout(()=>{
-      setLoading(false);
-      dispatch(clearCart());
-      navigate("/order-success");
-    },2000);
-  }
-}, [Ordersucess, navigate,dispatch]);
+  useEffect(() => {
+    if (Ordersucess) {
+      setTimeout(() => {
+        setLoading(false);
+        dispatch(clearCart());
+        navigate("/order-success");
+      }, 2000);
+    }
+  }, [Ordersucess, navigate, dispatch]);
 
-//   if(!name || !locality || !cloudinaryImageId) return <Loader />;
-if(loading) return <Loader />;
+  //   if(!name || !locality || !cloudinaryImageId) return <Loader />;
+  if (loading) return <Loader />;
 
   return items.length === 0 ? (
     <div className="pt-24 px-4 p-4 max-w-xl mx-auto">
@@ -84,8 +86,51 @@ if(loading) return <Loader />;
               </div>
             </div>
           </div>
-          <div className="bg-white rounded p-6 h-22">
+
+          {/* <div className="bg-white rounded p-6 h-22">
             <h1 className="text-gray-500 font-bold">Payment</h1>
+          </div> */}
+
+          <div className=" bg-white rounded p-4 h-22">
+            <h1 className="text-black font-bold">Payment Method</h1>
+            <div className="flex gap-4 items-center mt-2 font-semibold">
+                 <label>
+              <input
+                type="radio"
+                value="UPI"
+                checked={paymentMethod === "UPI"}
+                onChange={(e) => setPaymentMethod(e.target.value)}
+              />
+             &nbsp;UPI
+            </label>
+            <label>
+              <input
+                type="radio"
+                value="Card"
+                checked={paymentMethod === "Card"}
+                onChange={(e) => setPaymentMethod(e.target.value)}
+              />
+              &nbsp;Card
+            </label>
+            <label>
+              <input
+                type="radio"
+                value="Wallet"
+                checked={paymentMethod === "Wallet"}
+                onChange={(e) => setPaymentMethod(e.target.value)}
+              />
+              &nbsp;Wallet
+            </label>
+            <label>
+              <input
+                type="radio"
+                value="COD"
+                checked={paymentMethod === "COD"}
+                onChange={(e) => setPaymentMethod(e.target.value)}
+              />
+              &nbsp;Cash on Delivery
+            </label>
+            </div>
           </div>
         </div>
 
@@ -106,7 +151,7 @@ if(loading) return <Loader />;
           )}
 
           <div className="mt-2">
-            <div  className="max-h-60 overflow-y-auto pr-2" >
+            <div className="max-h-60 overflow-y-auto pr-2">
               {items.map((item) => (
                 <div key={item.id} className="py-2">
                   <div className="flex justify-evenly gap-4">
@@ -124,8 +169,8 @@ if(loading) return <Loader />;
                     {/* Item Details */}
                     <div className="flex-1">
                       <h2 className="text-black font-semibold text-sm">
-                           {item?.name?.split(" ").slice(0, 3).join(" ")}
-                {item?.name?.split(" ").length > 4 && " ..."}
+                        {item?.name?.split(" ").slice(0, 3).join(" ")}
+                        {item?.name?.split(" ").length > 4 && " ..."}
                       </h2>
 
                       {/* Quantity Control */}
@@ -163,7 +208,6 @@ if(loading) return <Loader />;
             <hr className="bg-black border-t border-black my-2" />
 
             <div className="flex flex-col gap-4 mt-2">
-         
               <div className="flex justify-between px-4 items-center">
                 <span className="text-black font-bold text-lg">To Pay</span>
                 <span className="text-black font-bold text-lg">
@@ -171,16 +215,16 @@ if(loading) return <Loader />;
                 </span>
               </div>
 
-             
               <div className="flex justify-end">
-                <button onClick={handlePlaceOrder} className="bg-green-600 cursor-pointer hover:bg-green-700 text-white font-semibold py-2 px-6 rounded transition duration-300">
+                <button
+                  onClick={handlePlaceOrder}
+                  className="bg-green-600 cursor-pointer hover:bg-green-700 text-white font-semibold py-2 px-6 rounded transition duration-300"
+                >
                   Place Order
                 </button>
               </div>
-
             </div>
           </div>
-
         </div>
       </div>
     </div>

@@ -2,24 +2,24 @@ import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import 'leaflet/dist/leaflet.css';
 import { Suspense, lazy } from "react";
-import Restocards from "./components/Restocards";
+import Restocards from "./pages/Restocards";
 import AppLayout from "./components/AppLayout";
 import Shimmer from "./components/Shimmer";
 import Loader from "./components/Loader";
-import RestaurantMenu from "./components/RestaurantMenu";
+import RestaurantMenu from "./pages/RestaurantMenu";
 import {Provider} from "react-redux"
 import Store,{persistor} from "../src/app/Store"
 import { PersistGate } from "redux-persist/integration/react";
 
-const Error = lazy(() => import("./components/Error"));
-const Search = lazy(() => import("./components/Search"));
-const Offers = lazy(() => import("./components/Offers"));
-const Help = lazy(() => import("./components/Help"));
-const Footer = lazy(() => import("./components/footer"));
-const MapPage = lazy(()=>import("./components/NearbyRestaurantsMap"));
-const Checkout = lazy(() => import("./components/Checkout"));
-const Ordersucess = lazy(() => import("./components/Ordersucess"));
-const OrderHistory = lazy(() => import("./components/OrderHistory"));
+const Error = lazy(() => import("./pages/Error"));
+const Search = lazy(() => import("./pages/Search"));
+const Offers = lazy(() => import("./pages/Offers"));
+const Help = lazy(() => import("./pages/Help"));
+const Footer = lazy(() => import("./components/Footer"));
+const MapPage = lazy(()=>import("./pages/NearbyRestaurantsMap"));
+const Checkout = lazy(() => import("./pages/Checkout"));
+const Ordersucess = lazy(() => import("./pages/Ordersucess"));
+const OrderHistory = lazy(() => import("./pages/OrderHistory"));
 
 const router = createBrowserRouter([
   {

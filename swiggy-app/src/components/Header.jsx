@@ -6,7 +6,7 @@ import { IoRestaurantSharp } from "react-icons/io5";
 import { NavLink, Link } from "react-router-dom";
 import { useState, useEffect,useRef } from "react";
 import { useSelector} from "react-redux";
-import Droplist from "./Droplist";
+import Droplist from "../components/Droplist";
 
 import LoginSignup from "./LoginSignup";
 

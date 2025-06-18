@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom";
-import RestaurantMenuContent from "./RestaurantMenuContent";
+import RestaurantMenuContent from "../components/RestaurantMenuContent.jsx";
 import {useEffect} from "react";
 import { useDispatch,useSelector} from "react-redux";
 import {menuList} from "../features/menuList/menuThunk.js"
-import Loader from "./Loader.jsx";
+import Loader from "../components/Loader.jsx";
 
 export default function RestaurantMenu() {
   const { restaurantId } = useParams();

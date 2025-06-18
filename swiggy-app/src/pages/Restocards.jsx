@@ -1,7 +1,7 @@
-import Features from "./Features";
-import RestoCardList from "./RestoCardList";
+import Features from "../components/Features";
+import RestoCardList from "../components/RestoCardList";
 import { useSelector } from "react-redux";
-import Shimmer from "./Shimmer";
+import Shimmer from "../components/Shimmer";
 
 export default function Restocards() {
 

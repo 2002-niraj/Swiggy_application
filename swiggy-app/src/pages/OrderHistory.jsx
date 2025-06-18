@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import Loader from "./Loader";
+import Loader from "../components/Loader";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { useState } from "react";
 

@@ -1,7 +1,7 @@
-import Header from "./Header";
+import Header from "./Header.jsx";
 import { Outlet } from "react-router-dom";
 
-import useOnlineStatus from "../utils/useOnlineStatus";
+import useOnlineStatus from "../utils/useOnlineStatus.js";
 import restoThunk from "../features/restoList/restoThunk.js"
 import {getLocationThunk} from "../features/location/locationThunk.js";
 import { useDispatch,useSelector } from "react-redux";
