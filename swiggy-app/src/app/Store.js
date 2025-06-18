@@ -9,6 +9,8 @@ import restoSlice from "../features/restoList/restoSlice";
 import registerSlice from "../features/signup/registerSlice"
 import menuSlice from "../features/menuList/menuSlice"
 import locationSlice from "../features/location/locationSlice"
+import orderSlice from "../features/order/orderSlice";
+import OrderHistory from "../features/orderHistory/orderHistorySlice";
 
 // 1️⃣ Combine all reducers
 const rootReducer = {
@@ -17,14 +19,16 @@ const rootReducer = {
     register: registerSlice,
     list: restoSlice,
     menu: menuSlice,
-    location: locationSlice
+    location: locationSlice,
+    order: orderSlice,
+    orderHistory: OrderHistory
 };
 
 // 2️⃣ Create persist config
 const persistConfig = {
     key: 'root',
     storage, // use localStorage
-    whitelist: ['cart', 'login', 'menu','location'] // only persist these slices
+    whitelist: ['cart', 'login', 'menu','location','orderHistory'] // only persist these slices
 }
 
 // 3️⃣ Wrap your root reducer with persistReducer

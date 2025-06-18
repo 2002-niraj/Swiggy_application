@@ -20,6 +20,9 @@ const Footer = lazy(() => import("./components/footer"));
 const MapPage = lazy(()=>import("./components/NearbyRestaurantsMap"));
 const Checkout = lazy(() => import("./components/Checkout"));
 
+const Ordersucess = lazy(() => import("./components/Ordersucess"));
+const OrderHistory = lazy(() => import("./components/OrderHistory"));
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -89,6 +92,24 @@ const router = createBrowserRouter([
             <Checkout/>
           </Suspense>
         )
+      }
+      ,
+      {
+        path:"/order-success",
+        element:(
+          <Suspense fallback={<Loader />}>
+            <Ordersucess/>
+          </Suspense>
+        )
+      }
+      ,{
+           path:"/order-history",
+        element:(
+          <Suspense fallback={<Loader />}>
+            <OrderHistory/>
+          </Suspense>
+        )
+
       }
 
     ],

@@ -4,13 +4,22 @@ import getRestoById from "../utils/getRestoById";
 import { IoMdRemove } from "react-icons/io";
 import { IoMdAdd } from "react-icons/io";
 import { decreaseItem, additems } from "../features/cart/cartSlice";
+import Loader from "./Loader";
+import placeOrders from "../features/order/orderThunk.js";
+import { useNavigate } from "react-router-dom";
+import { useEffect,useState } from "react";
+import { clearCart } from "../features/cart/cartSlice";
 
 export default function Checkout() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const address = useSelector((state) => state?.location?.address);
   const restaurantList = useSelector((state) => state.list.restaurantList);
   const restaurantId = useSelector((state) => state.cart.restoId);
   const user = useSelector((state) => state.login.user);
+  const totalAmount = useSelector((state) => state.cart.total);
+  const Ordersucess = useSelector((state) => state.order.success);
 
   let name, locality, cloudinaryImageId;
   if (restaurantList?.length > 0 && restaurantId) {
@@ -19,21 +28,29 @@ export default function Checkout() {
   }
 
   const items = useSelector((state) => state.cart.items);
-  const total = items.reduce((acc, item) => {
-    const price = item?.price || item?.defaultPrice || 0;
-    return acc + price * (item?.quantity || 1);
-  }, 0);
-  //console.log("items:", items);
 
-  const placeOrder = () => {
-       if(!user){
-        alert("Please login to place an order");
-        return;
-       }
-       else{
-        alert("Order placed successfully!");
-       }
+const handlePlaceOrder = () => {
+  if (!user) {
+    alert("Please login to place an order");
+    return;
   }
+  setLoading(true);
+
+  dispatch(placeOrders());
+};
+
+useEffect(() => {
+  if (Ordersucess) {
+    setTimeout(()=>{
+      setLoading(false);
+      dispatch(clearCart());
+      navigate("/order-success");
+    },2000);
+  }
+}, [Ordersucess, navigate,dispatch]);
+
+//   if(!name || !locality || !cloudinaryImageId) return <Loader />;
+if(loading) return <Loader />;
 
   return items.length === 0 ? (
     <div className="pt-24 px-4 p-4 max-w-xl mx-auto">
@@ -88,10 +105,10 @@ export default function Checkout() {
             </div>
           )}
 
-          <div>
-            <div>
+          <div className="mt-2">
+            <div  className="max-h-60 overflow-y-auto pr-2" >
               {items.map((item) => (
-                <div key={item.id} className=" py-4">
+                <div key={item.id} className="py-2">
                   <div className="flex justify-evenly gap-4">
                     {/* Veg/Non-Veg Icon */}
                     <div className="pt-1">
@@ -107,7 +124,8 @@ export default function Checkout() {
                     {/* Item Details */}
                     <div className="flex-1">
                       <h2 className="text-black font-semibold text-sm">
-                        {item?.name}
+                           {item?.name?.split(" ").slice(0, 3).join(" ")}
+                {item?.name?.split(" ").length > 4 && " ..."}
                       </h2>
 
                       {/* Quantity Control */}
@@ -142,25 +160,27 @@ export default function Checkout() {
                 </div>
               ))}
             </div>
-            <hr className="bg-black border-t border-black my-4" />
+            <hr className="bg-black border-t border-black my-2" />
 
-            <div className="flex flex-col gap-4 mt-4">
+            <div className="flex flex-col gap-4 mt-2">
          
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between px-4 items-center">
                 <span className="text-black font-bold text-lg">To Pay</span>
                 <span className="text-black font-bold text-lg">
-                  ₹{total / 100}
+                  ₹{totalAmount / 100}
                 </span>
               </div>
 
              
-              <div className="flex mt-10 justify-end">
-                <button onClick={placeOrder} className="bg-green-600 cursor-pointer hover:bg-green-700 text-white font-semibold py-2 px-6 rounded transition duration-300">
+              <div className="flex justify-end">
+                <button onClick={handlePlaceOrder} className="bg-green-600 cursor-pointer hover:bg-green-700 text-white font-semibold py-2 px-6 rounded transition duration-300">
                   Place Order
                 </button>
               </div>
+
             </div>
           </div>
+
         </div>
       </div>
     </div>
