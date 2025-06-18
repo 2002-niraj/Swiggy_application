@@ -16,10 +16,8 @@ const Search = lazy(() => import("./components/Search"));
 const Offers = lazy(() => import("./components/Offers"));
 const Help = lazy(() => import("./components/Help"));
 const Footer = lazy(() => import("./components/footer"));
-
 const MapPage = lazy(()=>import("./components/NearbyRestaurantsMap"));
 const Checkout = lazy(() => import("./components/Checkout"));
-
 const Ordersucess = lazy(() => import("./components/Ordersucess"));
 const OrderHistory = lazy(() => import("./components/OrderHistory"));
 
