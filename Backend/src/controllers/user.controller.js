@@ -1,11 +1,13 @@
 import bcrypt from "bcryptjs";
 import { createUser, findUserByEmail ,login } from "../models/user.model.js";
-const getAllUsers = async (req, res) => {
-  try {
-  } catch (error) {}
-};
+import {HTTP_STATUS} from "../constants/httpStatus.js"
+import { MESSAGES } from "../constants/messages.js";
 
-const registerUser = async (req, res) => {
+const { CREATED, CONFLICT, BAD_REQUEST} = HTTP_STATUS;
+
+const { USER_ALREADY_EXISTS, USER_REGISTERED_SUCCESSFULLY, ALL_FIELDS_REQUIRED } = MESSAGES;
+
+const registerUser = async (req, res,next) => {
   try {
     const { name, email, password, phone } = req.body;
 
@@ -14,23 +16,23 @@ const registerUser = async (req, res) => {
 
     if (existingUser) {
       return res
-        .status(409)
+        .status(CONFLICT)
         .json({
-          status:409,  
+          status:CONFLICT,  
           success:false,
           user: {
             id: existingUser.id,
             name: existingUser.name,
             email: existingUser.email,
           },
-          message: "User Already Exists",
+          message: USER_ALREADY_EXISTS
         });
     }
 
     if (!name || !email || !password) {
       return res
-        .status(400)
-        .json({ status:400, success:false,message: "All required fields must be filled" });
+        .status(BAD_REQUEST)
+        .json({ status:BAD_REQUEST, success:false,message: ALL_FIELDS_REQUIRED });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -41,10 +43,10 @@ const registerUser = async (req, res) => {
       phone
     );
 
-    res.status(201).json({
-        status:201,
+    res.status(CREATED).json({
+        status:CREATED,
         success:true,
-      message: "User Registered Successfully",
+      message: USER_REGISTERED_SUCCESSFULLY,
       user: {
         id: userDetails.id,
         name: userDetails.name,
@@ -52,16 +54,16 @@ const registerUser = async (req, res) => {
       },
     });
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 };
 
-const loginUser = async (req, res) => {
+const loginUser = async (req, res,next) => {
   try {
     const { email, password } = req.body;
 
     if(!email || !password){
-            return res.status(400).json({ status:400,message:"Email and password are required"});
+            return res.status(BAD_REQUEST).json({ status:BAD_REQUEST,message: ALL_FIELDS_REQUIRED, success:false });
      }
 
      const response = await login(email,password);
@@ -74,8 +76,8 @@ const loginUser = async (req, res) => {
 
     
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 };
 
-export { getAllUsers, registerUser, loginUser };
+export { registerUser, loginUser };

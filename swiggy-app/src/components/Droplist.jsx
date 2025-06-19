@@ -9,9 +9,7 @@ const Droplist = ({ setShowDropDown, setShowAuth }) => {
   const dispatch = useDispatch();
    const navigate = useNavigate();
 
-
-
-  const user = useSelector((state) => state.login.user);
+  const {user,token} = useSelector((state) => state.login);
 
   const {id} = user || null
 
@@ -24,7 +22,7 @@ const Droplist = ({ setShowDropDown, setShowAuth }) => {
   };
 
   const handleOrdersHistory = ()=>{
-         dispatch(fetchOrderHistory(id))
+         dispatch(fetchOrderHistory({id,token}))
          navigate("/order-history");
          setShowDropDown(false);
       

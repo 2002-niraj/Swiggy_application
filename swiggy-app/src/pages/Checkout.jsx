@@ -18,7 +18,7 @@ export default function Checkout() {
   const address = useSelector((state) => state?.location?.address);
   const restaurantList = useSelector((state) => state.list.restaurantList);
   const restaurantId = useSelector((state) => state.cart.restoId);
-  const user = useSelector((state) => state.login.user);
+  const {user,token} = useSelector((state) => state.login);
   const totalAmount = useSelector((state) => state.cart.total);
   const Ordersucess = useSelector((state) => state.order.success);
 
@@ -38,7 +38,7 @@ export default function Checkout() {
     }
     setLoading(true);
 
-    dispatch(placeOrders());
+    dispatch(placeOrders({token}));
   };
 
   useEffect(() => {

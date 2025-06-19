@@ -1,4 +1,4 @@
-import { sql, connectToDb } from "../config/db.js";
+import { sql, connectToDb } from "../config/dbConnection.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 const createUser = async (name, email, password, phone, address) => {

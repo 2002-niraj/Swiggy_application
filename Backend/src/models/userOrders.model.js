@@ -1,5 +1,5 @@
 // models/orderCombinedModel.js
-import { connectToDb, sql } from "../config/db.js";
+import { connectToDb, sql } from "../config/dbConnection.js";
 
 export const fetchRestaurantOrders = async (user_id) => {
   const pool = await connectToDb();

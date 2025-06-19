@@ -1,11 +1,20 @@
 import { storeRestaurantDetails,createOrderModel, insertOrderItems } from "../models/order.model.js";
-const createOrder = async (req, res) => {
+import {HTTP_STATUS} from "../constants/httpStatus.js"
+import { MESSAGES } from "../constants/messages.js";
+
+const { CREATED, BAD_REQUEST} = HTTP_STATUS;
+const { ORDER_SUCCESS, MISSING_FIELDS } = MESSAGES;
+
+
+const createOrder = async (req, res,next) => {
 
  try{
 
        const { userId,  restaurantInfo , total, address, items } = req.body;
+            if (!userId || !restaurantInfo || !total || !address || !items || items.length === 0) {
+            return res.status(BAD_REQUEST).json({ status:BAD_REQUEST, success: false, message: MISSING_FIELDS });
+            }
        
-
       const restoId = await storeRestaurantDetails(restaurantInfo);
 
       const orderId  = await createOrderModel(userId, restoId, total, address);
@@ -14,11 +23,10 @@ const createOrder = async (req, res) => {
             await insertOrderItems(orderId,item);
        }
 
-       res.status(201).json({ success: true, message: "Order placed", orderId });
+       res.status(CREATED).json({ status:CREATED, success: true, message: ORDER_SUCCESS , orderId });
  }
  catch(error){
-    //console.error("Error creating order:", error);
-    res.status(500).json({ success: false, message: "Internal server error" });
+ next(error)
  }
 }
 

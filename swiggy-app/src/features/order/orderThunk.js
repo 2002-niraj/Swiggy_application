@@ -3,7 +3,7 @@ import axios from "axios";
 
 const placeOrders = createAsyncThunk(
   "order/placeOrder",
-  async(_,{getState, rejectWithValue})=>{
+  async({token},{getState, rejectWithValue})=>{
      try{
        const state = getState();
        const orderPayload = {
@@ -13,7 +13,15 @@ const placeOrders = createAsyncThunk(
         total: state.cart.total,
         items: state.cart.items
       };
-      const res = await axios.post("http://localhost:3001/api/order", orderPayload);
+      // in post url, body,headers
+      const res = await axios.post("http://localhost:3001/api/order", 
+        orderPayload,
+              {
+
+             headers: {
+            Authorization: `Bearer ${token}`,
+          }
+        });
       return res.data;
      }
      catch(error){

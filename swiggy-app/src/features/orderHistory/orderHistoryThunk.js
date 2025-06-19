@@ -4,10 +4,15 @@ import axios from "axios";
 
 const fetchOrderHistory = createAsyncThunk(
   "orderHistory/fetch",
-  async (userId, { rejectWithValue }) => {
+  async ({id,token} , { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `http://localhost:3001/api/orders/${userId}`
+        `http://localhost:3001/api/orders/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
       return response.data?.data?.orderDetails || [];

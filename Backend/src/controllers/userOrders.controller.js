@@ -1,18 +1,25 @@
 import {fetchOrdersWithItems } from "../models/userOrders.model.js";
-const getUserOrders = async(req , res)=>{
+import {HTTP_STATUS} from "../constants/httpStatus.js"
+import { MESSAGES } from "../constants/messages.js";
 
+const { OK, BAD_REQUEST } = HTTP_STATUS;
+const { ORDER_FETCHED, USER_ID_MISSING} = MESSAGES
+
+
+const getUserOrders = async(req , res,next)=>{
 
     try{
         const userId = parseInt( req.params.userId,10);
         if(!userId){
-            return res.status(400).json({ success: false, message: "User ID is required" });
+            return res.status(BAD_REQUEST).json({ status:BAD_REQUEST, success: false, message: USER_ID_MISSING });
         }
 
     const orderDetails = await fetchOrdersWithItems(userId);
 
-        res.status(200).json({
+        res.status(OK).json({
+            status: OK,
             success: true,
-            message: "User orders fetched successfully",
+            message: ORDER_FETCHED,
             data: {
              orderDetails
             }
@@ -20,8 +27,7 @@ const getUserOrders = async(req , res)=>{
 
     }
     catch(error){
-       // console.error("Error fetching user orders:", error);
-        res.status(500).json({ success: false, message: "Internal server error" });
+        next(error);
     }
 }
 

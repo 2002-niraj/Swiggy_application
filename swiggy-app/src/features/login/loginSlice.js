@@ -6,6 +6,7 @@ const loginSlice = createSlice({
     name:"auth",
     initialState:{
         user:null,
+        token:null,
         error:"",
         loginMessage : ""
         
@@ -13,6 +14,7 @@ const loginSlice = createSlice({
     reducers:{
         logout:(state)=>{
              state.user = null;
+             state.token = null;
             localStorage.removeItem("user");
         },
         clearLoginError:(state)=>{
@@ -28,6 +30,7 @@ const loginSlice = createSlice({
         }),
            builder.addCase(loginUser.fulfilled,(state,action)=>{
             state.user= action.payload.user;
+            state.token = action.payload.token;
             state.loginMessage = action.payload.message;
         }),
         builder.addCase(loginUser.rejected,(state,action)=>{

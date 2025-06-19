@@ -1,4 +1,4 @@
-import { sql, connectToDb } from "../config/db.js";
+import { sql, connectToDb } from "../config/dbConnection.js";
 
 
 const storeRestaurantDetails = async(restaurantInfo)=>{
