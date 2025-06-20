@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import Loader from "../components/Loader";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { useState } from "react";
+import Button from "../components/Button";
 
 const OrderHistory = () => {
   const { orders, loading } = useSelector((state) => state.orderHistory);
@@ -103,39 +104,54 @@ const OrderHistory = () => {
                   </div>
 
                   <div className="flex items-center gap-6 mt-2 ">
-                    <button className="bg-orange-400 cursor-pointer text-white px-6 py-3 font-bold rounded">
-                      REORDER
-                    </button>
-                    <button className="text-orange-500 cursor-pointer px-6 py-[10px] font-bold bg-white border-1 border-gray-400">
-                      HELP
-                    </button>
+                    <Button 
+                     text={"Reorder"}
+                      bgColor="bg-orange-400"
+                      textColor="text-white"
+                      padding="px-6 py-3"
+                      rounded="rounded"
+                      uppercase="uppercase"
+                      font="font-bold"
+                    />
+                    <Button
+                      text="help"
+                      bgColor="bg-white"
+                      textColor="text-orange-500"
+                      padding="px-6 py-[10px]"
+                      rounded="rounded"
+                      uppercase="uppercase"
+                      font="font-bold"
+                      className="border border-gray-400 hover:bg-gray-100 transition duration-200"
+                    />
+                    
                   </div>
                 </div>
               </div>
             ))}
 
             <div className="flex justify-center items-center space-x-2 mb-2 mx-4">
-              <button
-                className={`px-4 py-2 cursor-pointer rounded ${
-                  currentPage === 1 ? "bg-gray-300" : "bg-orange-500 text-white"
-                }`}
+
+              <Button        
+                text="previous"
+                bgColor={currentPage === 1 ? "bg-gray-300" : "bg-orange-500 text-white"}
+                textColor={currentPage === 1 ? "text-gray-600" : "text-white"}
+                padding="px-4 py-2"
+                rounded="rounded"
                 disabled={currentPage === 1}
-                onClick={handlePrevious}
-              >
-                Previous
-              </button>
+                onClick={handlePrevious}/>
+
               <p>{currentPage}</p>
-              <button
-                className={`px-4 py-2 cursor-pointer rounded ${
-                  currentPage - 1 === totalPages
-                    ? "bg-gray-300"
-                    : "bg-orange-500 text-white"
-                }`}
+
+              <Button 
+               text="Next"
+                bgColor={currentPage === totalPages ? "bg-gray-300" : "bg-orange-500 text-white"}
+                textColor={currentPage === totalPages ? "text-gray-600" : "text-white"}
+                padding="px-4 py-2"
+                rounded="rounded"
                 disabled={currentPage === totalPages}
                 onClick={handleNext}
-              >
-                Next
-              </button>
+              />
+
             </div>
 
 
